@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msr-algaworks-api
+spec:
+  selector:
+    matchLabels:
+      app: msr-algaworks-api
+  template:
+    metadata:
+      labels:
+        app: msr-algaworks-api
+    spec:
+      volumes:
+      - name: msr-algaworks-properties
+        configMap:
+          name: msr-algaworks-configmap
+      containers:
+      - name: msr-algaworks-api
+        image: docker.io/jdieb/msr-algaworks:latest
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: msr-algaworks-properties
+          mountPath: /app/src/main/resources/
+          readOnly: true
