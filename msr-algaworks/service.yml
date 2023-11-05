@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: msr-algaworks-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: msr-algaworks-api
+  ports:
+  - port: 9000
+    targetPort: 8080
+    protocol: TCP
+    name: http

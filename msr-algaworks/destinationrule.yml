@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: "msr-algaworks-ds"
+spec:
+  host: msr-algaworks-api-service
+  # trafficPolicy:
+   # outlierDetection:
+      # consecutive5xxErrors: 2 # qualquer erro 500
+      # interval: 10s
+      # baseEjectionTime: 30s
+      # maxEjectionPercent: 100
+      # consecutiveGatewayErrors: 2
+  subsets:
+    - name: v1
+      labels:
+        version: A
+      trafficPolicy:
+        loadBalancer:
+          simple: LEAST_CONN
+    - name: v2
+      labels:
+        version: B
+      trafficPolicy:
+        loadBalancer:
+          simple: RANDOM
